@@ -1,3 +1,18 @@
+# Copyright 2025 The Newton Developers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+
 import sys
 from pathlib import Path
 
@@ -10,7 +25,9 @@ FLAGS = flags.FLAGS
 
 _VERBOSE = flags.DEFINE_bool("verbose", False, "Enable debug logging.")
 _FILES = flags.DEFINE_multi_string("files", [], "Python files to check.")
-_OUTPUT = flags.DEFINE_enum("output", "console", ["console", "github"], "Analyzer output format.")
+_OUTPUT = flags.DEFINE_enum(
+  "output", "console", ["console", "github"], "Analyzer output format."
+)
 
 
 def main(argv):
@@ -29,9 +46,11 @@ def main(argv):
 
     def err_console(iss):
       print(f"{filepath}:{iss.lineno}:{iss}", file=sys.stderr)
-    
+
     def err_github(iss):
-      print(f"::error title=Kernel Analyzer,file={filepath},line={iss.lineno + 1}::{iss}")
+      print(
+        f"::error title=Kernel Analyzer,file={filepath},line={iss.lineno + 1}::{iss}"
+      )
 
     err = {"console": err_console, "github": err_github}[_OUTPUT.value]
 
