@@ -70,7 +70,7 @@ _ROBOT = flags.DEFINE_enum("robot", "g1", _MENAGERIE_ROBOTS.keys(), "the robot t
 
 
 def main(argv: Sequence[str]):
-  """Create kitchen environment with robot from MuJoCo Menagerie."""
+  """Populates an environment with robot from MuJoCo Menagerie."""
 
   input_path = epath.Path(_INPUT.value)
   if not input_path.exists():
@@ -87,7 +87,7 @@ def main(argv: Sequence[str]):
 
   # create xml
   spec = mujoco.MjSpec.from_file(input_path.as_posix())
-  spec_xml = spec.to_xml().replace("assets/", f"kitchen{_ROBOT.value}/assets/")
+  spec_xml = spec.to_xml().replace("assets/", f"{_ROBOT.value}/assets/")
   spec = mujoco.MjSpec.from_string(spec_xml)
   robot = mujoco.MjSpec.from_file(robot_path.as_posix())
 
