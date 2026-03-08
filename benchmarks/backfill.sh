@@ -102,6 +102,15 @@ if [[ ! -d "$RESULTS_DIR_PATH" ]]; then
     error "Results directory not found at $RESULTS_DIR_PATH"
 fi
 
+# Fetch external benchmark assets (e.g. mesh files from menagerie)
+BENCHMARKS_ASSEMBLED="/tmp/mujoco_warp_benchmarks_backfill"
+if [[ -f "$SCRIPT_DIR/fetch_assets.sh" ]]; then
+    log "Fetching benchmark assets..."
+    bash "$SCRIPT_DIR/fetch_assets.sh" --output-dir="$BENCHMARKS_ASSEMBLED"
+else
+    BENCHMARKS_ASSEMBLED="$SCRIPT_DIR"
+fi
+
 log "Backfill configuration:"
 log "  RANGE: HEAD~$START to HEAD~$END"
 log "  MOCK_MODE: $MOCK_MODE"
@@ -149,7 +158,7 @@ for commit in $COMMITS; do
         # Build command arguments for mjwarp-testspeed
         CMD=(
             "mjwarp-testspeed"
-            "$SCRIPT_DIR/$MJCF"
+            "$BENCHMARKS_ASSEMBLED/$MJCF"
             "--nworld=$NWORLD"
             "--nconmax=$NCONMAX"
             "--njmax=$NJMAX"

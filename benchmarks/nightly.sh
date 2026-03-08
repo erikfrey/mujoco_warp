@@ -119,6 +119,16 @@ for commit in $COMMITS; do
     if [[ ! -f "$CONFIG" ]]; then
         error "Configuration file not found at $CONFIG"
     fi
+
+    # Fetch external benchmark assets (e.g. mesh files from menagerie)
+    BENCHMARKS_ASSEMBLED="/tmp/mujoco_warp_benchmarks_${commit:0:8}"
+    if [[ -f "$WORK_DIR/benchmarks/fetch_assets.sh" ]]; then
+        log "Fetching benchmark assets..."
+        bash "$WORK_DIR/benchmarks/fetch_assets.sh" --output-dir="$BENCHMARKS_ASSEMBLED" | log
+    else
+        BENCHMARKS_ASSEMBLED="$WORK_DIR/benchmarks"
+    fi
+    
     
     while read -r NAME MJCF NWORLD NCONMAX NJMAX NSTEP REPLAY; do
         # Skip comments and empty lines
@@ -129,7 +139,7 @@ for commit in $COMMITS; do
         # Build command arguments for mjwarp-testspeed
         CMD=(
             "mjwarp-testspeed"
-            "$WORK_DIR/benchmarks/$MJCF"
+            "$BENCHMARKS_ASSEMBLED/$MJCF"
             "--nworld=$NWORLD"
             "--nconmax=$NCONMAX"
             "--njmax=$NJMAX"

@@ -64,6 +64,7 @@ _MEASURE_SOLVER = flags.DEFINE_bool("measure_solver", False, "print a report of 
 _NUM_BUCKETS = flags.DEFINE_integer("num_buckets", 10, "number of buckets to summarize rollout measurements")
 _DEVICE = flags.DEFINE_string("device", None, "override the default Warp device")
 _REPLAY = flags.DEFINE_string("replay", None, "keyframe sequence to replay, keyframe name must prefix match")
+_REPLAY_NPZ = flags.DEFINE_string("replay_npz", None, "NPZ file with ctrl sequence to replay (expects 'ctrl' and 'times' arrays)")
 _MEMORY = flags.DEFINE_bool("memory", False, "print memory report")
 _FORMAT = flags.DEFINE_enum("format", "human", ["human", "short", "json"], "output format for results")
 _INFO = flags.DEFINE_bool("info", False, "print Model and Data info")
@@ -95,6 +96,48 @@ def _load_model(path: epath.Path) -> mujoco.MjModel:
     register_sdf_plugins(mjw)
 
   return spec.compile()
+
+
+def _make_trajectory_from_npz(npz_path: str, mjm: mujoco.MjModel, mjd: mujoco.MjData) -> np.ndarray:
+  """Load ctrl sequence from NPZ file.
+
+  The NPZ file should contain:
+    - 'ctrl': array of shape (nctrl, nu) with ctrl values
+    - 'times': array of shape (nctrl+1,) or (nctrl,) with timestamps
+    - 'qpos' (optional): array of shape (nctrl+1, nq) - used for initial state
+    - 'qvel' (optional): array of shape (nctrl+1, nv) - used for initial state
+
+  Each ctrl[i] is held constant for one RL step (decimation physics steps).
+  The ctrl values are expanded to one entry per physics step.
+  """
+  data = np.load(npz_path)
+  ctrl = data["ctrl"]
+  times = data["times"]
+
+  if ctrl.shape[1] != mjm.nu:
+    raise ValueError(f"ctrl shape {ctrl.shape} does not match model nu={mjm.nu}")
+
+  # Set initial state from first frame if available
+  if "qpos" in data and data["qpos"].shape[1] == mjm.nq:
+    mjd.qpos[:] = data["qpos"][0]
+  if "qvel" in data and data["qvel"].shape[1] == mjm.nv:
+    mjd.qvel[:] = data["qvel"][0]
+
+  # Determine decimation from timing
+  if len(times) > 1:
+    rl_dt = times[1] - times[0]
+  else:
+    rl_dt = mjm.opt.timestep
+
+  decimation = max(1, round(rl_dt / mjm.opt.timestep))
+
+  # Expand: each ctrl held constant for decimation physics steps
+  ctrls = []
+  for i in range(len(ctrl)):
+    for _ in range(decimation):
+      ctrls.append(ctrl[i])
+
+  return np.array(ctrls)
 
 
 def _dataclass_memory(dataclass, prefix: str = "") -> list[tuple[str, int]]:
@@ -273,7 +316,9 @@ def _main(argv: Sequence[str]):
   mjm = _load_model(path)
   mjd = mujoco.MjData(mjm)
   ctrls = None
-  if _REPLAY.value:
+  if _REPLAY_NPZ.value:
+    ctrls = _make_trajectory_from_npz(_REPLAY_NPZ.value, mjm, mjd)
+  elif _REPLAY.value:
     keys = find_keys(mjm, _REPLAY.value)
     if not keys:
       raise app.UsageError(f"Key prefix not find: {_REPLAY.value}")
