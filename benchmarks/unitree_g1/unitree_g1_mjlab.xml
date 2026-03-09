@@ -1,5 +1,5 @@
 <!--
-  Unitree G1 model derived from mujoco_menagerie (unitree_g1/g1.xml).
+  Unitree G1 model derived from mujoco_menagerie (unitree_g1/g1_mjx.xml).
 
   Changes to match mjlab's compiled model:
     - frictionloss: 0.1 -> 0 (mjlab does not use joint friction)
@@ -10,6 +10,9 @@
        -> waist/ankle)
     - actuator gains: per-actuator kp/kv/ctrlrange/forcerange from mjlab
       (replaces menagerie default classes)
+    - contact model: geom-level contype/conaffinity=1 for collision geoms
+      (mjlab uses FULL_COLLISION, not explicit contact pairs)
+    - foot friction: 0.6, condim=3, priority=1 (from mjlab FULL_COLLISION)
 -->
 <mujoco model="unitree_g1_mjlab">
   <compiler angle="radian" meshdir="assets"/>
@@ -24,16 +27,15 @@
         <geom group="2" type="mesh" density="0" material="silver"/>
       </default>
       <default class="collision">
-        <geom group="3" rgba=".2 .6 .2 .3" type="capsule"/>
+        <geom group="3" rgba=".2 .6 .2 .3" type="capsule" contype="1" conaffinity="1"/>
         <default class="foot_box">
-          <geom pos="0.04 0 -0.029" size="0.09 0.03 0.008" type="box" group="4"/>
+          <geom pos="0.04 0 -0.029" size="0.09 0.03 0.008" type="box" group="4" condim="3" friction="0.6" priority="1"/>
         </default>
         <default class="foot_capsule">
-          <geom group="3" type="capsule" size="0.01"/>
+          <geom group="3" type="capsule" size="0.01" condim="3" friction="0.6" priority="1"/>
         </default>
       </default>
       <site group="5" rgba="1 0 0 1"/>
-      <!-- Disable all contacts and use explicit contact pairs. -->
       <geom condim="1" contype="0" conaffinity="0"/>
       <joint frictionloss="0" solimplimit="0 0.99 0.01" solreflimit=".008 1"/>
       <position inheritrange="1" kp="75" kv="2"/>

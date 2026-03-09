@@ -19,47 +19,6 @@
     <light pos="0 0 3" dir="0 0 -1" directional="true" />
   </worldbody>
 
-  <contact>
-    <!-- left foot - floor -->
-    <pair geom1="left_foot1_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <pair geom1="left_foot2_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <pair geom1="left_foot3_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <!-- right foot - floor -->
-    <pair geom1="right_foot1_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <pair geom1="right_foot2_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <pair geom1="right_foot3_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <!-- foot box - floor -->
-    <pair geom1="left_foot_box_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <pair geom1="right_foot_box_collision" geom2="floor" condim="3" friction="0.6 0.6" solref="0.008 1"/>
-    <!-- self collision (condim=1) -->
-    <pair geom1="left_foot_box_collision" geom2="right_foot_box_collision" condim="1"/>
-    <pair geom1="left_foot_box_collision" geom2="right_shin_collision" condim="1"/>
-    <pair geom1="right_foot_box_collision" geom2="left_shin_collision" condim="1"/>
-    <pair geom1="left_shin_collision" geom2="right_shin_collision" condim="1"/>
-    <pair geom1="left_thigh_collision" geom2="right_thigh_collision" condim="1"/>
-    <pair geom1="torso_collision" geom2="left_shoulder_yaw_collision" condim="1"/>
-    <pair geom1="torso_collision" geom2="right_shoulder_yaw_collision" condim="1"/>
-    <pair geom1="torso_collision" geom2="left_elbow_yaw_collision" condim="1"/>
-    <pair geom1="torso_collision" geom2="right_elbow_yaw_collision" condim="1"/>
-    <!-- body - floor (condim=3) -->
-    <pair geom1="pelvis_collision" geom2="floor" condim="3"/>
-    <pair geom1="torso_collision" geom2="floor" condim="3"/>
-    <pair geom1="head_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_hip_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_hip_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_thigh_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_thigh_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_shin_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_shin_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_hand_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_hand_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_shoulder_yaw_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_shoulder_yaw_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_elbow_yaw_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_elbow_yaw_collision" geom2="floor" condim="3"/>
-    <pair geom1="left_wrist_collision" geom2="floor" condim="3"/>
-    <pair geom1="right_wrist_collision" geom2="floor" condim="3"/>
-  </contact>
 
   <keyframe>
     <key name="home"
