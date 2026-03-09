@@ -360,40 +360,42 @@
     </body>
   </worldbody>
 
+  <!-- Actuator ordering and gains match mjlab's compiled model exactly. -->
   <actuator>
-    <position class="hip_pitch" name="left_hip_pitch_joint" joint="left_hip_pitch_joint"/>
-    <position class="hip_roll" name="left_hip_roll_joint" joint="left_hip_roll_joint"/>
-    <position class="hip_yaw" name="left_hip_yaw_joint" joint="left_hip_yaw_joint"/>
-    <position class="knee" name="left_knee_joint" joint="left_knee_joint"/>
-    <position class="ankle_pitch" name="left_ankle_pitch_joint" joint="left_ankle_pitch_joint"/>
-    <position class="ankle_roll" name="left_ankle_roll_joint" joint="left_ankle_roll_joint"/>
-
-    <position class="hip_pitch" name="right_hip_pitch_joint" joint="right_hip_pitch_joint"/>
-    <position class="hip_roll" name="right_hip_roll_joint" joint="right_hip_roll_joint"/>
-    <position class="hip_yaw" name="right_hip_yaw_joint" joint="right_hip_yaw_joint"/>
-    <position class="knee" name="right_knee_joint" joint="right_knee_joint"/>
-    <position class="ankle_pitch" name="right_ankle_pitch_joint" joint="right_ankle_pitch_joint"/>
-    <position class="ankle_roll" name="right_ankle_roll_joint" joint="right_ankle_roll_joint"/>
-
-    <position class="waist_yaw" name="waist_yaw_joint" joint="waist_yaw_joint"/>
-    <position class="waist_roll" name="waist_roll_joint" joint="waist_roll_joint"/>
-    <position class="waist_pitch" name="waist_pitch_joint" joint="waist_pitch_joint"/>
-
-    <position class="shoulder_pitch" name="left_shoulder_pitch_joint" joint="left_shoulder_pitch_joint"/>
-    <position class="shoulder_roll" name="left_shoulder_roll_joint" joint="left_shoulder_roll_joint"/>
-    <position class="shoulder_yaw" name="left_shoulder_yaw_joint" joint="left_shoulder_yaw_joint"/>
-    <position class="elbow" name="left_elbow_joint" joint="left_elbow_joint"/>
-    <position class="wrist_roll" name="left_wrist_roll_joint" joint="left_wrist_roll_joint"/>
-    <position class="wrist_pitch" name="left_wrist_pitch_joint" joint="left_wrist_pitch_joint"/>
-    <position class="wrist_yaw" name="left_wrist_yaw_joint" joint="left_wrist_yaw_joint"/>
-
-    <position class="shoulder_pitch" name="right_shoulder_pitch_joint" joint="right_shoulder_pitch_joint"/>
-    <position class="shoulder_roll" name="right_shoulder_roll_joint" joint="right_shoulder_roll_joint"/>
-    <position class="shoulder_yaw" name="right_shoulder_yaw_joint" joint="right_shoulder_yaw_joint"/>
-    <position class="elbow" name="right_elbow_joint" joint="right_elbow_joint"/>
-    <position class="wrist_roll" name="right_wrist_roll_joint" joint="right_wrist_roll_joint"/>
-    <position class="wrist_pitch" name="right_wrist_pitch_joint" joint="right_wrist_pitch_joint"/>
-    <position class="wrist_yaw" name="right_wrist_yaw_joint" joint="right_wrist_yaw_joint"/>
+    <!-- Group 1: shoulder + elbow (kp=14.25, kv=0.907) -->
+    <position name="left_shoulder_pitch_joint" joint="left_shoulder_pitch_joint" kp="14.2506" kv="0.9072" ctrlrange="-4.8435 4.4247" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="left_shoulder_roll_joint" joint="left_shoulder_roll_joint" kp="14.2506" kv="0.9072" ctrlrange="-3.3425 4.0058" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="left_shoulder_yaw_joint" joint="left_shoulder_yaw_joint" kp="14.2506" kv="0.9072" ctrlrange="-4.3723 4.3723" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="left_elbow_joint" joint="left_elbow_joint" kp="14.2506" kv="0.9072" ctrlrange="-2.8015 3.8487" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="left_wrist_roll_joint" joint="left_wrist_roll_joint" kp="14.2506" kv="0.9072" ctrlrange="-3.7265 3.7265" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="right_shoulder_pitch_joint" joint="right_shoulder_pitch_joint" kp="14.2506" kv="0.9072" ctrlrange="-4.8435 4.4247" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="right_shoulder_roll_joint" joint="right_shoulder_roll_joint" kp="14.2506" kv="0.9072" ctrlrange="-4.0058 3.3425" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="right_shoulder_yaw_joint" joint="right_shoulder_yaw_joint" kp="14.2506" kv="0.9072" ctrlrange="-4.3723 4.3723" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="right_elbow_joint" joint="right_elbow_joint" kp="14.2506" kv="0.9072" ctrlrange="-2.8015 3.8487" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <position name="right_wrist_roll_joint" joint="right_wrist_roll_joint" kp="14.2506" kv="0.9072" ctrlrange="-3.7265 3.7265" forcerange="-25 25" ctrllimited="true" forcelimited="true"/>
+    <!-- Group 2: hip pitch + hip yaw + waist yaw (kp=40.18, kv=2.558) -->
+    <position name="left_hip_pitch_joint" joint="left_hip_pitch_joint" kp="40.1792" kv="2.5579" ctrlrange="-4.7209 5.0700" forcerange="-88 88" ctrllimited="true" forcelimited="true"/>
+    <position name="left_hip_yaw_joint" joint="left_hip_yaw_joint" kp="40.1792" kv="2.5579" ctrlrange="-4.9478 4.9478" forcerange="-88 88" ctrllimited="true" forcelimited="true"/>
+    <position name="right_hip_pitch_joint" joint="right_hip_pitch_joint" kp="40.1792" kv="2.5579" ctrlrange="-4.7209 5.0700" forcerange="-88 88" ctrllimited="true" forcelimited="true"/>
+    <position name="right_hip_yaw_joint" joint="right_hip_yaw_joint" kp="40.1792" kv="2.5579" ctrlrange="-4.9478 4.9478" forcerange="-88 88" ctrllimited="true" forcelimited="true"/>
+    <position name="waist_yaw_joint" joint="waist_yaw_joint" kp="40.1792" kv="2.5579" ctrlrange="-4.8082 4.8082" forcerange="-88 88" ctrllimited="true" forcelimited="true"/>
+    <!-- Group 3: hip roll + knee (kp=99.10, kv=6.309) -->
+    <position name="left_hip_roll_joint" joint="left_hip_roll_joint" kp="99.0984" kv="6.3088" ctrlrange="-1.9262 4.3697" forcerange="-139 139" ctrllimited="true" forcelimited="true"/>
+    <position name="left_knee_joint" joint="left_knee_joint" kp="99.0984" kv="6.3088" ctrlrange="-1.4899 4.2824" forcerange="-139 139" ctrllimited="true" forcelimited="true"/>
+    <position name="right_hip_roll_joint" joint="right_hip_roll_joint" kp="99.0984" kv="6.3088" ctrlrange="-4.3697 1.9262" forcerange="-139 139" ctrllimited="true" forcelimited="true"/>
+    <position name="right_knee_joint" joint="right_knee_joint" kp="99.0984" kv="6.3088" ctrlrange="-1.4899 4.2824" forcerange="-139 139" ctrllimited="true" forcelimited="true"/>
+    <!-- Group 4: wrist pitch + wrist yaw (kp=16.78, kv=1.068) -->
+    <position name="left_wrist_pitch_joint" joint="left_wrist_pitch_joint" kp="16.7783" kv="1.0681" ctrlrange="-1.9124 1.9124" forcerange="-5 5" ctrllimited="true" forcelimited="true"/>
+    <position name="left_wrist_yaw_joint" joint="left_wrist_yaw_joint" kp="16.7783" kv="1.0681" ctrlrange="-1.9124 1.9124" forcerange="-5 5" ctrllimited="true" forcelimited="true"/>
+    <position name="right_wrist_pitch_joint" joint="right_wrist_pitch_joint" kp="16.7783" kv="1.0681" ctrlrange="-1.9124 1.9124" forcerange="-5 5" ctrllimited="true" forcelimited="true"/>
+    <position name="right_wrist_yaw_joint" joint="right_wrist_yaw_joint" kp="16.7783" kv="1.0681" ctrlrange="-1.9124 1.9124" forcerange="-5 5" ctrllimited="true" forcelimited="true"/>
+    <!-- Group 5: waist roll/pitch + ankle (kp=28.50, kv=1.814) -->
+    <position name="waist_roll_joint" joint="waist_roll_joint" kp="28.5012" kv="1.8144" ctrlrange="-2.2743 2.2743" forcerange="-50 50" ctrllimited="true" forcelimited="true"/>
+    <position name="waist_pitch_joint" joint="waist_pitch_joint" kp="28.5012" kv="1.8144" ctrlrange="-2.2743 2.2743" forcerange="-50 50" ctrllimited="true" forcelimited="true"/>
+    <position name="left_ankle_pitch_joint" joint="left_ankle_pitch_joint" kp="28.5012" kv="1.8144" ctrlrange="-2.6270 2.2779" forcerange="-50 50" ctrllimited="true" forcelimited="true"/>
+    <position name="left_ankle_roll_joint" joint="left_ankle_roll_joint" kp="28.5012" kv="1.8144" ctrlrange="-2.0161 2.0161" forcerange="-50 50" ctrllimited="true" forcelimited="true"/>
+    <position name="right_ankle_pitch_joint" joint="right_ankle_pitch_joint" kp="28.5012" kv="1.8144" ctrlrange="-2.6270 2.2779" forcerange="-50 50" ctrllimited="true" forcelimited="true"/>
+    <position name="right_ankle_roll_joint" joint="right_ankle_roll_joint" kp="28.5012" kv="1.8144" ctrlrange="-2.0161 2.0161" forcerange="-50 50" ctrllimited="true" forcelimited="true"/>
   </actuator>
 
   <sensor>
