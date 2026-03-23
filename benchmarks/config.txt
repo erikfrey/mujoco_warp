@@ -8,10 +8,10 @@
 # NCONMAX:  Maximum contacts per world
 # NJMAX:    Maximum constraints per world
 # NSTEP:    Number of steps (optional, defaults to 1000)
-# REPLAY:   Keyframe sequence prefix (optional)
+# REPLAY:   NPZ replay file path (optional, relative to benchmarks dir)
 
 aloha_cloth               aloha_cloth/scene.xml                32     920  6300  100   -
-aloha_pot                 aloha_pot/scene.xml                  8192   24   128   -     lift_pot
+aloha_pot                 aloha_pot/scene.xml                  8192   24   128   -     aloha_pot/lift_pot.npz
 aloha_sdf                 aloha_sdf/scene.xml                  8192   32   226   -     -
 apptronik_apollo_flat     apptronik_apollo/scene_flat.xml      8192   16   64    -     -
 apptronik_apollo_hfield   apptronik_apollo/scene_hfield.xml    8192   32   128   -     -

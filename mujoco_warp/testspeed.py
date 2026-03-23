@@ -63,8 +63,7 @@ _MEASURE_ALLOC = flags.DEFINE_bool("measure_alloc", False, "print a report of co
 _MEASURE_SOLVER = flags.DEFINE_bool("measure_solver", False, "print a report of solver iterations per step")
 _NUM_BUCKETS = flags.DEFINE_integer("num_buckets", 10, "number of buckets to summarize rollout measurements")
 _DEVICE = flags.DEFINE_string("device", None, "override the default Warp device")
-_REPLAY = flags.DEFINE_string("replay", None, "keyframe sequence to replay, keyframe name must prefix match")
-_REPLAY_NPZ = flags.DEFINE_string("replay_npz", None, "NPZ file with ctrl sequence to replay (expects 'ctrl' and 'times' arrays)")
+_REPLAY = flags.DEFINE_string("replay", None, "NPZ file with ctrl sequence to replay (expects 'ctrl' and 'times' arrays)")
 _MEMORY = flags.DEFINE_bool("memory", False, "print memory report")
 _FORMAT = flags.DEFINE_enum("format", "human", ["human", "short", "json"], "output format for results")
 _INFO = flags.DEFINE_bool("info", False, "print Model and Data info")
@@ -316,14 +315,8 @@ def _main(argv: Sequence[str]):
   mjm = _load_model(path)
   mjd = mujoco.MjData(mjm)
   ctrls = None
-  if _REPLAY_NPZ.value:
-    ctrls = _make_trajectory_from_npz(_REPLAY_NPZ.value, mjm, mjd)
-  elif _REPLAY.value:
-    keys = find_keys(mjm, _REPLAY.value)
-    if not keys:
-      raise app.UsageError(f"Key prefix not find: {_REPLAY.value}")
-    ctrls = make_trajectory(mjm, keys)
-    mujoco.mj_resetDataKeyframe(mjm, mjd, keys[0])
+  if _REPLAY.value:
+    ctrls = _make_trajectory_from_npz(_REPLAY.value, mjm, mjd)
   elif mjm.nkey > 0 and _KEYFRAME.value > -1:
     mujoco.mj_resetDataKeyframe(mjm, mjd, _KEYFRAME.value)
     if ctrls is None:

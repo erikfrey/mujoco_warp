@@ -124,7 +124,7 @@ Two viable approaches:
 ### `benchmarks/unitree_g1/` (new)
 - `scene_flat.xml` — flat ground scene from menagerie g1
 - `scene_hfield.xml` — heightfield terrain variant
-- `ctrl_sequence.npz` — captured ctrl from mjlab (t=40-45s, 250 RL steps)
+- `shuffle_dance.npz` — captured ctrl from mjlab (t=40-45s, 250 RL steps)
 - `scene.hfield` — terrain heightfield data
 
 ### `benchmarks/fetch_assets.sh` (new)

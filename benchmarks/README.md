@@ -12,6 +12,19 @@ source .venv/bin/activate
 uv pip install -e .[dev]
 ```
 
+## Fetching Assets
+
+Several benchmarks use mesh assets from
+[mujoco_menagerie](https://github.com/google-deepmind/mujoco_menagerie) that
+are not checked into this repository. Fetch them before running:
+
+```bash
+./fetch_assets.sh
+```
+
+This downloads the required STL/mesh files into each benchmark's `assets/`
+subdirectory.
+
 ## Running Benchmarks
 
 To execute all benchmarks, from the `benchmarks` directory run:

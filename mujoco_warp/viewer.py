@@ -60,7 +60,7 @@ _NCCDMAX = flags.DEFINE_integer("nccdmax", None, "Maximum number of CCD contacts
 _OVERRIDE = flags.DEFINE_multi_string("override", [], "Model overrides (notation: foo.bar = baz)", short_name="o")
 _KEYFRAME = flags.DEFINE_integer("keyframe", 0, "keyframe to initialize simulation.")
 _DEVICE = flags.DEFINE_string("device", None, "override the default Warp device")
-_REPLAY = flags.DEFINE_string("replay", None, "keyframe sequence to replay, keyframe name must prefix match")
+_REPLAY = flags.DEFINE_string("replay", None, "NPZ file with ctrl sequence, or keyframe prefix to replay")
 
 _VIEWER_GLOBAL_STATE = {"running": True, "step_once": False}
 
@@ -116,11 +116,15 @@ def _main(argv: Sequence[str]) -> None:
   ctrls = None
   ctrlid = 0
   if _REPLAY.value:
-    keys = find_keys(mjm, _REPLAY.value)
-    if not keys:
-      raise app.UsageError(f"Key prefix not find: {_REPLAY.value}")
-    ctrls = make_trajectory(mjm, keys)
-    mujoco.mj_resetDataKeyframe(mjm, mjd, keys[0])
+    if _REPLAY.value.endswith('.npz'):
+      from mujoco_warp.testspeed import _make_trajectory_from_npz
+      ctrls = _make_trajectory_from_npz(_REPLAY.value, mjm, mjd)
+    else:
+      keys = find_keys(mjm, _REPLAY.value)
+      if not keys:
+        raise app.UsageError(f"Key prefix not found: {_REPLAY.value}")
+      ctrls = make_trajectory(mjm, keys)
+      mujoco.mj_resetDataKeyframe(mjm, mjd, keys[0])
   elif mjm.nkey > 0 and _KEYFRAME.value > -1:
     mujoco.mj_resetDataKeyframe(mjm, mjd, _KEYFRAME.value)
 

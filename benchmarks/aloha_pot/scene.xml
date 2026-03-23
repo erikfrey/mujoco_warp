@@ -1,5 +1,5 @@
 <mujoco model="aloha with pot">
-  <compiler autolimits="true" boundmass="0.01" boundinertia="9.9999999999999995e-07" angle="radian"/>
+  <compiler autolimits="true" boundmass="0.01" boundinertia="9.9999999999999995e-07" angle="radian" meshdir="assets" texturedir="assets"/>
   <option impratio="10" cone="elliptic"/>
   <visual>
     <global azimuth="90" elevation="-20" offwidth="848" offheight="480"/>
@@ -91,6 +91,8 @@
     <material name="groundplane" class="/" texture="groundplane" texrepeat="5 5" texuniform="true" reflectance="0.20000000000000001"/>
     <material name="metal" class="/" rgba="0.51700000000000002 0.52900000000000003 0.53700000000000003 1"/>
     <material name="black" class="/" rgba="0.14999999999999999 0.14999999999999999 0.14999999999999999 1"/>
+    <texture name="small_meta_table_diffuse" type="2d" file="small_meta_table_diffuse.png"/>
+    <material name="table" class="/" texture="small_meta_table_diffuse"/>
     <mesh name="vx300s_1_base" class="/" file="vx300s_1_base.stl" scale="0.001 0.001 0.001"/>
     <mesh name="vx300s_2_shoulder" class="/" file="vx300s_2_shoulder.stl" scale="0.001 0.001 0.001"/>
     <mesh name="vx300s_3_upper_arm" class="/" file="vx300s_3_upper_arm.stl" scale="0.001 0.001 0.001"/>
@@ -218,8 +220,8 @@
     <geom name="floor" class="/" type="plane" size="2 2 0.050000000000000003" material="groundplane" pos="0 0 -0.75"/>
     <body name="table" pos="0 0 -0.75">
       <site name="worldref" class="/"/>
-      <geom name="tabletop" class="visual" quat="1 0 0 1" mesh="tabletop"/>
-      <geom name="tablelegs" class="visual" quat="1 0 0 1" mesh="tablelegs"/>
+      <geom name="tabletop" class="visual" material="table" quat="1 0 0 1" mesh="tabletop"/>
+      <geom name="tablelegs" class="visual" material="table" quat="1 0 0 1" mesh="tablelegs"/>
       <geom name="table" class="collision" type="box" size="0.60999999999999999 0.37 0.10000000000000001" pos="0 0 0.65090000000000003"/>
     </body>
     <camera name="overhead_cam" class="/" mode="fixed" fovy="58" pos="0 -0.30379400000000001 1.0252399999999999" quat="0.97633199999999998 0.216277 0 0"/>

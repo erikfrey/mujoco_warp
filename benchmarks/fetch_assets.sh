@@ -77,48 +77,23 @@ rsync -a --exclude='fetch_assets.sh' "$BENCHMARKS_DIR/" "$OUTPUT_DIR/"
 
 # --- Step 3: Overlay menagerie assets ---
 
-# aloha_pot: robot STLs + table OBJs from menagerie
+# aloha_pot: robot STLs + table OBJs + texture from menagerie
 echo "Adding aloha assets from menagerie..."
-ALOHA_SRC="$CACHE_DIR/aloha/assets"
-for f in \
-    angled_extrusion.stl corner_bracket.stl d405_solid.stl \
-    extrusion_1000.stl extrusion_1220.stl extrusion_150.stl \
-    extrusion_2040_1000.stl extrusion_2040_880.stl extrusion_600.stl \
-    overhead_mount.stl \
-    vx300s_1_base.stl vx300s_2_shoulder.stl vx300s_3_upper_arm.stl \
-    vx300s_4_upper_forearm.stl vx300s_5_lower_forearm.stl vx300s_6_wrist.stl \
-    vx300s_7_gripper_bar.stl vx300s_7_gripper_prop.stl \
-    vx300s_7_gripper_wrist_mount.stl \
-    vx300s_8_custom_finger_left.stl vx300s_8_custom_finger_right.stl \
-    wormseye_mount.stl \
-    tablelegs.obj tabletop.obj; do
-    cp "$ALOHA_SRC/$f" "$OUTPUT_DIR/aloha_pot/$f"
-done
-echo "  aloha_pot: 24 files"
+mkdir -p "$OUTPUT_DIR/aloha_pot/assets"
+cp "$CACHE_DIR/aloha/assets"/* "$OUTPUT_DIR/aloha_pot/assets/"
+echo "  aloha_pot: $(ls "$OUTPUT_DIR/aloha_pot/assets" | wc -l) files"
 
 # franka_emika_panda: collision meshes from menagerie
 echo "Adding franka assets from menagerie..."
-FRANKA_SRC="$CACHE_DIR/franka_emika_panda/assets"
 mkdir -p "$OUTPUT_DIR/franka_emika_panda/assets"
-for f in \
-    finger_0.obj hand.stl \
-    link0.stl link1.stl link2.stl link3.stl link4.stl \
-    link5_collision_0.obj link5_collision_1.obj link5_collision_2.obj \
-    link6.stl link7.stl; do
-    cp "$FRANKA_SRC/$f" "$OUTPUT_DIR/franka_emika_panda/assets/$f"
-done
-echo "  franka_emika_panda: 12 files"
+cp "$CACHE_DIR/franka_emika_panda/assets"/* "$OUTPUT_DIR/franka_emika_panda/assets/"
+echo "  franka_emika_panda: $(ls "$OUTPUT_DIR/franka_emika_panda/assets" | wc -l) files"
 
 # unitree_g1: robot STLs from menagerie
 echo "Adding unitree_g1 assets from menagerie..."
-G1_SRC="$CACHE_DIR/unitree_g1/assets"
 mkdir -p "$OUTPUT_DIR/unitree_g1/assets"
-G1_COUNT=0
-for stl in "$G1_SRC"/*.STL; do
-    cp "$stl" "$OUTPUT_DIR/unitree_g1/assets/$(basename "$stl")"
-    G1_COUNT=$((G1_COUNT + 1))
-done
-echo "  unitree_g1: $G1_COUNT files"
+cp "$CACHE_DIR/unitree_g1/assets"/* "$OUTPUT_DIR/unitree_g1/assets/"
+echo "  unitree_g1: $(ls "$OUTPUT_DIR/unitree_g1/assets" | wc -l) files"
 
 # --- Step 4: Copy any other referenced assets ---
 
