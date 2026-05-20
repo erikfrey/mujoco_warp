@@ -269,9 +269,10 @@ def _det3(v1: wp.vec3, v2: wp.vec3, v3: wp.vec3) -> float:
 
 @wp.func
 def _same_sign(a: float, b: float) -> int:
-  if a > 0.0 and b > 0.0:
+  # Evaluate eagerly to avoid branch-heavy codegen.
+  if (int(a > 0.0) & int(b > 0.0)) != 0:
     return 1
-  if a < 0.0 and b < 0.0:
+  if (int(a < 0.0) & int(b < 0.0)) != 0:
     return -1
   return 0
 
